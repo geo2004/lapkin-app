@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Submission {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  kode_satker     String
+  nama_satker     String
+  wilayah         String
+  tahun           Int    @default(2026)
+  triwulan        String
+  unit_kerja_kode String
+  unit_kerja_nama String
+  pengisi         String
+  jabatan         String?
+  status          String  @default("DRAFT")
+  link_datadukung String?
+
+  iku   IKU[]
+  files UploadedFile[]
+
+  @@index([kode_satker, unit_kerja_kode, triwulan, tahun])
+  @@index([status])
+  @@index([triwulan])
+  @@index([unit_kerja_kode])
+}
+
+model IKU {
+  id           Int        @id @default(autoincrement())
+  submissionId Int
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  urutan               Int
+  nama_iku             String
+  pagu                 Float  @default(0)
+  target_2026          Float  @default(0)
+  target_tw            Float  @default(0)
+  realisasi_output     Float  @default(0)
+  realisasi_keuangan   Float  @default(0)
+  pct_capaian          String @default("—")
+  keterangan           String @default("")
+  permasalahan         String @default("")
+  tindak_lanjut        String @default("")
+  faktor_keberhasilan  String @default("")
+
+  @@index([submissionId])
+}
+
+model UploadedFile {
+  id           String      @id @default(uuid())
+  submissionId Int?
+  submission   Submission? @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+
+  originalName       String
+  mimeType           String
+  sizeBytes          Int
+  cloudinaryPublicId String
+  cloudinaryUrl      String
+  uploadedAt         DateTime @default(now())
+
+  @@index([submissionId])
+}

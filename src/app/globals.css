@@ -1,0 +1,39 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --ink:        #0d1117;
+  --ink2:       #30363d;
+  --ink3:       #656d76;
+  --line:       #d0d7de;
+  --line2:      #f6f8fa;
+  --bg:         #f6f8fa;
+  --white:      #ffffff;
+  --navy:       #0969da;
+  --navy-dark:  #0a3069;
+  --navy-bg:    #ddf4ff;
+  --green:      #1a7f37;
+  --green-bg:   #dcfce7;
+  --amber:      #9a6700;
+  --amber-bg:   #fff8c5;
+  --red:        #cf222e;
+  --red-bg:     #ffebe9;
+  --teal:       #1b7c83;
+  --teal-bg:    #d8f3f6;
+  --purple:     #6639ba;
+  --purple-bg:  #fbefff;
+  --sans:       system-ui, -apple-system, sans-serif;
+  --mono:       'Fira Code', ui-monospace, monospace;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+button { cursor: pointer; font-family: var(--sans); }
