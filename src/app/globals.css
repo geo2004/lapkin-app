@@ -1,28 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 :root {
-  --ink:        #0d1117;
-  --ink2:       #30363d;
-  --ink3:       #656d76;
-  --line:       #d0d7de;
-  --line2:      #f6f8fa;
-  --bg:         #f6f8fa;
+  /* PKP Brand */
+  --pkp-teal:      #04495F;
+  --pkp-teal-mid:  #0F4C61;
+  --pkp-teal-dark: #03374A;
+  --pkp-teal-bg:   #e0f4f8;
+  --pkp-gold:      #D5C68B;
+  --pkp-gold-dark: #CDB278;
+  --pkp-gold-bg:   #f7f0db;
+
+  /* Mapped tokens (keep component refs working) */
+  --ink:        #04495F;
+  --ink2:       #0F4C61;
+  --ink3:       #5a7a85;
+  --line:       #c8dde3;
+  --line2:      #f0f6f8;
+  --bg:         #f5f7f8;
   --white:      #ffffff;
-  --navy:       #0969da;
-  --navy-dark:  #0a3069;
-  --navy-bg:    #ddf4ff;
+  --navy:       #04495F;
+  --navy-dark:  #03374A;
+  --navy-bg:    #e0f4f8;
   --green:      #1a7f37;
   --green-bg:   #dcfce7;
   --amber:      #9a6700;
   --amber-bg:   #fff8c5;
   --red:        #cf222e;
   --red-bg:     #ffebe9;
-  --teal:       #1b7c83;
-  --teal-bg:    #d8f3f6;
+  --teal:       #CDB278;
+  --teal-bg:    #f7f0db;
   --purple:     #6639ba;
   --purple-bg:  #fbefff;
-  --sans:       system-ui, -apple-system, sans-serif;
+  --sans:       'Poppins', 'Inter', Arial, sans-serif;
   --mono:       'Fira Code', ui-monospace, monospace;
 }
 

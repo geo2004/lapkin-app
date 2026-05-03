@@ -62,25 +62,32 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
 
       {/* ── TOPBAR ── */}
       <div style={{
-        background: "var(--ink)", color: "white",
-        padding: "0 28px", height: 52,
-        display: "flex", alignItems: "center",
+        background: "var(--pkp-teal)", color: "white",
+        padding: "0 28px", height: 56,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
         position: "sticky", top: 0, zIndex: 200,
+        borderBottom: "3px solid var(--pkp-gold)",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, fontWeight: 600 }}>
-          <div style={{
-            width: 28, height: 28,
-            background: "linear-gradient(135deg,#f59e0b,#fbbf24)",
-            borderRadius: 6, display: "flex", alignItems: "center",
-            justifyContent: "center", fontSize: 13, color: "var(--ink)",
-          }}>B</div>
-          BP3KP Jawa III · Laporan Kinerja 2026
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/design/logo_pkp.png" alt="Logo PKP" style={{ height: 36, objectFit: "contain" }} />
+          <div style={{ width: 1, height: 28, background: "rgba(255,255,255,0.25)" }} />
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.04em", lineHeight: 1.2 }}>
+              BP3KP Jawa III
+            </div>
+            <div style={{ fontSize: 10, fontWeight: 400, opacity: 0.7, letterSpacing: "0.03em" }}>
+              Laporan Kinerja Triwulanan 2026
+            </div>
+          </div>
         </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/design/image6.png" alt="Kementerian PKP" style={{ height: 40, objectFit: "contain" }} />
       </div>
 
       {/* ── HERO SECTION ── */}
       <div style={{
-        background: "linear-gradient(135deg, #0a3069 0%, #0969da 100%)",
+        background: "linear-gradient(135deg, var(--pkp-teal-dark) 0%, var(--pkp-teal) 100%)",
         padding: "36px 28px 40px",
       }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -134,12 +141,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
 
               <a href={exportUrl} style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
-                background: "#1a7f37",
-                border: "1.5px solid #2da44e",
+                background: "var(--pkp-gold)",
+                border: "1.5px solid var(--pkp-gold-dark)",
                 borderRadius: 40, padding: "12px 28px",
-                fontSize: 14, fontWeight: 700, color: "#ffffff",
+                fontSize: 14, fontWeight: 700, color: "var(--pkp-teal)",
                 textDecoration: "none", letterSpacing: "0.01em",
-                boxShadow: "0 4px 16px rgba(26,127,55,0.4)",
+                boxShadow: "0 4px 16px rgba(213,198,139,0.4)",
               }}>
                 <span style={{ fontSize: 16 }}>📊</span>
                 Export Excel
