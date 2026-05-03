@@ -26,6 +26,13 @@ html { scroll-behavior: smooth; }
   --mono:       'Fira Code', ui-monospace, monospace;
 }
 
+.btn-ghost-white {
+  transition: background 0.2s;
+}
+.btn-ghost-white:hover {
+  background: rgba(255,255,255,0.22) !important;
+}
+
 body {
   font-family: var(--sans);
   background: var(--bg);

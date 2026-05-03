@@ -117,22 +117,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
 
             {/* CTA Buttons */}
             <div style={{ display: "flex", gap: 12, flexShrink: 0, flexWrap: "wrap" }}>
-              <a href="/form" target="_blank" style={{
+              <a href="/form" target="_blank" className="btn-ghost-white" style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: "rgba(255,255,255,0.12)",
                 border: "1.5px solid rgba(255,255,255,0.3)",
                 borderRadius: 40, padding: "12px 24px",
                 fontSize: 14, fontWeight: 700, color: "#ffffff",
                 textDecoration: "none", letterSpacing: "0.01em",
-                transition: "all 0.2s",
                 backdropFilter: "blur(4px)",
               }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.22)"
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.12)"
-                }}
               >
                 <span style={{ fontSize: 16 }}>✏️</span>
                 Isi Formulir
