@@ -705,12 +705,54 @@ label.fl .opt {
 .toast.inf { background: var(--pkp-teal-bg); color: var(--pkp-teal); border: 1px solid rgba(4,73,95,0.2); }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 560px) {
+@media (max-width: 640px) {
+  /* Topbar */
+  .topbar { padding: 0 14px; }
+  .topbar-subtitle { display: none; }
+  .topbar-divider { display: none; }
+  .topbar-logo-img { height: 28px; }
+  .topbar-meta .t-chip:not(.active) { display: none; }
+
+  /* Shell */
+  .shell { padding: 20px 12px 80px; }
+
+  /* Hero */
+  .hero { margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(22px, 7vw, 30px); }
+
+  /* Progress bar: compress labels */
+  .prog-label { font-size: 8px; letter-spacing: 0; }
+  .prog-dot { width: 22px; height: 22px; font-size: 9px; }
+  .progress-wrap { padding: 12px 10px; gap: 4px; }
+
+  /* Grids */
   .uk-grid { grid-template-columns: 1fr; }
   .fg-row, .fg-row3, .rv-grid, .rv-grid3 { grid-template-columns: 1fr; }
   .iku-review-body { grid-template-columns: 1fr 1fr; }
-  .topbar-meta .t-chip:not(.active) { display: none; }
+
+  /* Satker chips: full width */
+  .satker-grid { flex-direction: column; }
+  .satker-chip { min-width: unset; width: 100%; }
+
+  /* Buttons */
   .btn-group { flex-wrap: wrap; }
+  .btn-next, .btn-final, .btn-back, .btn-draft { width: 100%; justify-content: center; }
+  .bottom-nav { flex-direction: column-reverse; gap: 8px; }
+  .bottom-nav > div:first-child:empty { display: none; }
+
+  /* Upload area */
+  .upload-area { padding: 20px 14px; }
+
+  /* Section card body */
+  .scard-body { padding: 14px; }
+
+  /* IKU body */
+  .iku-body { padding: 10px; }
+}
+
+@media (max-width: 400px) {
+  .prog-label { display: none; }
+  .t-chip { font-size: 9px; padding: 2px 7px; }
 }
 </style>
 </head>

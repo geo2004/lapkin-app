@@ -45,6 +45,58 @@ html { scroll-behavior: smooth; }
   background: rgba(255,255,255,0.22) !important;
 }
 
+/* ── STAT GRID ── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  /* Topbar: hide decorative right logo */
+  .topbar-right-logo { display: none !important; }
+
+  /* Stat cards: 4-col → 2-col */
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Dashboard hero: tighten padding */
+  .hero-section { padding: 24px 16px 28px !important; }
+
+  /* Hero CTA buttons: full-width row */
+  .hero-cta { width: 100%; }
+  .hero-cta > a { flex: 1; justify-content: center !important; }
+
+  /* Filter bar: full-width selects */
+  .filter-bar select { width: 100% !important; min-width: unset !important; }
+
+  /* Detail page grids */
+  .grid-3col { grid-template-columns: 1fr 1fr !important; }
+  .grid-5col { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Submissions table: hide heavy columns on mobile */
+  .col-pagu, .col-realkeu, .col-serapan { display: none; }
+  .col-iku, .col-file { display: none; }
+
+  /* Shell padding */
+  .page-shell { padding: 20px 12px 80px !important; }
+
+  /* Detail shell */
+  .detail-shell { padding: 20px 12px 80px !important; }
+}
+
+@media (max-width: 480px) {
+  /* Stat cards: keep 2-col but tighter */
+  .stat-grid { gap: 8px; }
+
+  /* Detail identitas: collapse to 1-col */
+  .grid-3col { grid-template-columns: 1fr !important; }
+
+  /* Topbar brand text: hide subtitle */
+  .topbar-subtitle-hide { display: none !important; }
+}
+
 body {
   font-family: var(--sans);
   background: var(--bg);

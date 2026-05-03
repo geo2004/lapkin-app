@@ -14,7 +14,7 @@ export function StatCards({ total, finalCount, draftCount, satkerAktif }: Props)
   ]
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
+    <div className="stat-grid">
       {cards.map((c) => (
         <div key={c.label} style={{
           background: c.bg, border: `1px solid ${c.color}33`,

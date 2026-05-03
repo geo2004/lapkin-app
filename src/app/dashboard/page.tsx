@@ -76,17 +76,17 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
             <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.04em", lineHeight: 1.2 }}>
               BP3KP Jawa III
             </div>
-            <div style={{ fontSize: 10, fontWeight: 400, opacity: 0.7, letterSpacing: "0.03em" }}>
+            <div className="topbar-subtitle-hide" style={{ fontSize: 10, fontWeight: 400, opacity: 0.7, letterSpacing: "0.03em" }}>
               Laporan Kinerja Triwulanan 2026
             </div>
           </div>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/design/image6.png" alt="Kementerian PKP" style={{ height: 40, objectFit: "contain" }} />
+        <img src="/design/image6.png" alt="Kementerian PKP" className="topbar-right-logo" style={{ height: 40, objectFit: "contain" }} />
       </div>
 
       {/* ── HERO SECTION ── */}
-      <div style={{
+      <div className="hero-section" style={{
         background: "linear-gradient(135deg, var(--pkp-teal-dark) 0%, var(--pkp-teal) 100%)",
         padding: "36px 28px 40px",
       }}>
@@ -123,7 +123,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
             </div>
 
             {/* CTA Buttons */}
-            <div style={{ display: "flex", gap: 12, flexShrink: 0, flexWrap: "wrap" }}>
+            <div className="hero-cta" style={{ display: "flex", gap: 12, flexShrink: 0, flexWrap: "wrap" }}>
               <a href="/form" target="_blank" className="btn-ghost-white" style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: "rgba(255,255,255,0.12)",
@@ -158,7 +158,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
       </div>
 
       {/* ── MAIN CONTENT ── */}
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 28px 80px" }}>
+      <div className="page-shell" style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 28px 80px" }}>
 
         {/* Stat Cards */}
         <StatCards

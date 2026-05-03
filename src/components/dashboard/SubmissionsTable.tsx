@@ -72,8 +72,21 @@ export function SubmissionsTable({ rows, total, page, totalPages }: Props) {
         <table style={{ width: "100%", borderCollapse: "collapse", background: "var(--white)" }}>
           <thead>
             <tr>
-              {["No", "Satker", "Unit Kerja", "TW", "Pengisi", "IKU", "File", "Pagu", "Real.Keu", "Serapan", "Status", "Aksi"].map((h) => (
-                <th key={h} style={th}>{h}</th>
+              {[
+                { label: "No",       cls: "" },
+                { label: "Satker",   cls: "" },
+                { label: "Unit Kerja", cls: "" },
+                { label: "TW",       cls: "" },
+                { label: "Pengisi",  cls: "" },
+                { label: "IKU",      cls: "col-iku" },
+                { label: "File",     cls: "col-file" },
+                { label: "Pagu",     cls: "col-pagu" },
+                { label: "Real.Keu", cls: "col-realkeu" },
+                { label: "Serapan",  cls: "col-serapan" },
+                { label: "Status",   cls: "" },
+                { label: "Aksi",     cls: "" },
+              ].map(({ label, cls }) => (
+                <th key={label} className={cls} style={th}>{label}</th>
               ))}
             </tr>
           </thead>
@@ -112,11 +125,11 @@ export function SubmissionsTable({ rows, total, page, totalPages }: Props) {
                     {r.triwulan}
                   </td>
                   <td style={td}>{r.pengisi}</td>
-                  <td style={{ ...td, textAlign: "center", fontFamily: "var(--mono)" }}>{r._count.iku}</td>
-                  <td style={{ ...td, textAlign: "center", fontFamily: "var(--mono)" }}>{r._count.files}</td>
-                  <td style={{ ...td, fontFamily: "var(--mono)", fontSize: 11 }}>{fmt(r.totalPagu)}</td>
-                  <td style={{ ...td, fontFamily: "var(--mono)", fontSize: 11 }}>{fmt(r.totalRealKeu)}</td>
-                  <td style={{ ...td, fontFamily: "var(--mono)", fontSize: 11, fontWeight: 600 }}>{r.pctSerapan}</td>
+                  <td className="col-iku" style={{ ...td, textAlign: "center", fontFamily: "var(--mono)" }}>{r._count.iku}</td>
+                  <td className="col-file" style={{ ...td, textAlign: "center", fontFamily: "var(--mono)" }}>{r._count.files}</td>
+                  <td className="col-pagu" style={{ ...td, fontFamily: "var(--mono)", fontSize: 11 }}>{fmt(r.totalPagu)}</td>
+                  <td className="col-realkeu" style={{ ...td, fontFamily: "var(--mono)", fontSize: 11 }}>{fmt(r.totalRealKeu)}</td>
+                  <td className="col-serapan" style={{ ...td, fontFamily: "var(--mono)", fontSize: 11, fontWeight: 600 }}>{r.pctSerapan}</td>
                   <td style={td}>
                     <span style={{
                       background: isFinal ? "var(--green-bg)" : "var(--amber-bg)",

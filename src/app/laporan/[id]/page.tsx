@@ -81,7 +81,7 @@ export default async function LaporanDetailPage({ params }: Props) {
             <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.01em", lineHeight: 1.2 }}>
               Detail Laporan #{submission.id}
             </div>
-            <div style={{ fontSize: 10, opacity: 0.65 }}>BP3KP Jawa III · Kinerja Triwulanan 2026</div>
+            <div className="topbar-subtitle-hide" style={{ fontSize: 10, opacity: 0.65 }}>BP3KP Jawa III · Kinerja Triwulanan 2026</div>
           </div>
         </div>
         <a href="/dashboard" style={{
@@ -94,7 +94,7 @@ export default async function LaporanDetailPage({ params }: Props) {
         </a>
       </div>
 
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 20px 80px" }}>
+      <div className="detail-shell" style={{ maxWidth: 900, margin: "0 auto", padding: "28px 20px 80px" }}>
         {/* HEADER */}
         <div style={{ marginBottom: 24 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
@@ -119,7 +119,7 @@ export default async function LaporanDetailPage({ params }: Props) {
         {card(
           <>
             {cardHead("Identitas")}
-            <div style={{ padding: "16px 20px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+            <div className="grid-3col" style={{ padding: "16px 20px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
               {kv("Unit Kerja", (
                 <span style={{
                   background: uc.bg, color: uc.color,
@@ -162,7 +162,7 @@ export default async function LaporanDetailPage({ params }: Props) {
                     <span style={{ fontSize: 13, fontWeight: 600 }}>{iku.nama_iku}</span>
                   </div>
                   <div style={{ padding: 14 }}>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 12 }}>
+                    <div className="grid-5col" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 12 }}>
                       {[
                         ["Pagu", `Rp ${fmt(iku.pagu)}`],
                         ["Target 2026", iku.target_2026],
