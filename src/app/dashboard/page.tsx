@@ -134,9 +134,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                 backdropFilter: "blur(4px)",
               }}
               >
-                <span style={{ fontSize: 16 }}>✏️</span>
+                <i className="fa-solid fa-pen-to-square" style={{ fontSize: 14 }}></i>
                 Isi Formulir
-                <span style={{ fontSize: 12, opacity: 0.7 }}>↗</span>
+                <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: 11, opacity: 0.7 }}></i>
               </a>
 
               <a href={exportUrl} style={{
@@ -148,9 +148,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                 textDecoration: "none", letterSpacing: "0.01em",
                 boxShadow: "0 4px 16px rgba(213,198,139,0.4)",
               }}>
-                <span style={{ fontSize: 16 }}>📊</span>
+                <i className="fa-solid fa-table" style={{ fontSize: 14 }}></i>
                 Export Excel
-                <span style={{ fontSize: 12, opacity: 0.8 }}>↓</span>
+                <i className="fa-solid fa-download" style={{ fontSize: 11, opacity: 0.8 }}></i>
               </a>
             </div>
           </div>

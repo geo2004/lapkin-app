@@ -4,32 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Laporan Kinerja Triwulanan 2026 — BP3KP Jawa III</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root {
-  --ink:        #0d1117;
-  --ink2:       #30363d;
-  --ink3:       #656d76;
-  --line:       #d0d7de;
-  --line2:      #f6f8fa;
-  --bg:         #f6f8fa;
+  /* PKP Brand */
+  --pkp-teal:      #04495F;
+  --pkp-teal-mid:  #0F4C61;
+  --pkp-teal-dark: #03374A;
+  --pkp-teal-bg:   #e0f4f8;
+  --pkp-gold:      #D5C68B;
+  --pkp-gold-dark: #CDB278;
+  --pkp-gold-bg:   #f7f0db;
+
+  /* Mapped tokens */
+  --ink:        #04495F;
+  --ink2:       #0F4C61;
+  --ink3:       #5a7a85;
+  --line:       #c8dde3;
+  --line2:      #f0f6f8;
+  --bg:         #f5f7f8;
   --white:      #ffffff;
-  --navy:       #0969da;
-  --navy-dark:  #0a3069;
-  --navy-bg:    #ddf4ff;
+  --navy:       #04495F;
+  --navy-dark:  #03374A;
+  --navy-bg:    #e0f4f8;
   --green:      #1a7f37;
   --green-bg:   #dcfce7;
   --amber:      #9a6700;
   --amber-bg:   #fff8c5;
   --red:        #cf222e;
   --red-bg:     #ffebe9;
-  --teal:       #1b7c83;
-  --teal-bg:    #d8f3f6;
+  --teal:       #CDB278;
+  --teal-bg:    #f7f0db;
   --purple:     #6639ba;
   --purple-bg:  #fbefff;
-  --serif:      'Instrument Serif', Georgia, serif;
-  --sans:       'Instrument Sans', system-ui, sans-serif;
-  --mono:       'Fira Code', monospace;
+  --sans:       'Poppins', 'Inter', Arial, sans-serif;
+  --mono:       'Fira Code', ui-monospace, monospace;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,32 +58,42 @@ body {
 
 /* ── TOPBAR ── */
 .topbar {
-  background: var(--ink);
+  background: var(--pkp-teal);
   color: white;
   padding: 0 24px;
-  height: 50px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 200;
+  border-bottom: 3px solid var(--pkp-gold);
 }
 .topbar-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  gap: 12px;
 }
-.topbar-logo {
-  width: 28px; height: 28px;
-  background: linear-gradient(135deg, #f59e0b, #fbbf24);
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--serif);
-  font-size: 13px; color: var(--ink);
+.topbar-logo-img {
+  height: 32px;
+  object-fit: contain;
+}
+.topbar-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255,255,255,0.25);
+}
+.topbar-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+.topbar-subtitle {
+  font-size: 10px;
+  opacity: 0.65;
+  font-weight: 400;
 }
 .topbar-meta {
   display: flex; gap: 8px;
@@ -85,9 +107,9 @@ body {
   letter-spacing: 0.04em;
 }
 .t-chip.active {
-  background: rgba(249,196,1,0.15);
-  border-color: rgba(249,196,1,0.4);
-  color: #fbbf24;
+  background: rgba(213,198,139,0.2);
+  border-color: rgba(213,198,139,0.5);
+  color: var(--pkp-gold);
 }
 
 /* ── LAYOUT ── */
@@ -110,8 +132,9 @@ body {
   margin-bottom: 8px;
 }
 .hero h1 {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: clamp(26px, 5vw, 38px);
+  font-weight: 800;
   line-height: 1.15;
   color: var(--ink);
   margin-bottom: 6px;
@@ -119,7 +142,7 @@ body {
 }
 .hero h1 em {
   font-style: italic;
-  color: var(--navy);
+  color: var(--pkp-gold-dark);
 }
 .hero-sub {
   font-size: 14px;
@@ -158,8 +181,8 @@ body {
   position: relative;
   z-index: 1;
 }
-.prog-step.active .prog-dot  { background: var(--ink); border-color: var(--ink); color: white; }
-.prog-step.done .prog-dot    { background: var(--green); border-color: var(--green); color: white; font-size: 12px; }
+.prog-step.active .prog-dot  { background: var(--pkp-teal); border-color: var(--pkp-teal); color: white; }
+.prog-step.done .prog-dot    { background: var(--green); border-color: var(--green); color: white; font-size: 11px; }
 .prog-label {
   font-size: 9px;
   font-weight: 600;
@@ -169,7 +192,7 @@ body {
   text-align: center;
   line-height: 1.3;
 }
-.prog-step.active .prog-label { color: var(--ink); }
+.prog-step.active .prog-label { color: var(--pkp-teal); }
 .prog-step.done .prog-label   { color: var(--green); }
 .prog-line {
   flex: 0.3;
@@ -262,8 +285,8 @@ label.fl .opt {
   -webkit-appearance: none;
 }
 .fi:focus, .fs:focus, .fta:focus {
-  border-color: var(--navy);
-  box-shadow: 0 0 0 3px rgba(9,105,218,0.1);
+  border-color: var(--pkp-teal);
+  box-shadow: 0 0 0 3px rgba(4,73,95,0.12);
 }
 .fi.mono { font-family: var(--mono); font-size: 13px; }
 .fi.muted { background: var(--line2); color: var(--ink3); }
@@ -298,17 +321,17 @@ label.fl .opt {
   transition: all 0.15s;
   font-family: var(--sans);
 }
-.uk-btn:hover { border-color: var(--navy); background: var(--navy-bg); }
+.uk-btn:hover { border-color: var(--pkp-teal); background: var(--pkp-teal-bg); }
 .uk-btn.selected {
-  border-color: var(--navy);
-  background: var(--navy-bg);
-  box-shadow: 0 0 0 3px rgba(9,105,218,0.1);
+  border-color: var(--pkp-teal);
+  background: var(--pkp-teal-bg);
+  box-shadow: 0 0 0 3px rgba(4,73,95,0.12);
 }
 .uk-btn .uk-code {
   font-family: var(--mono);
   font-size: 9px;
   font-weight: 500;
-  color: var(--navy);
+  color: var(--pkp-teal);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   display: block;
@@ -325,8 +348,8 @@ label.fl .opt {
   color: var(--ink3);
   margin-top: 4px;
 }
-.uk-btn.selected .uk-code { color: var(--navy-dark); }
-.uk-btn.selected .uk-name { color: var(--navy-dark); }
+.uk-btn.selected .uk-code { color: var(--pkp-teal-dark); }
+.uk-btn.selected .uk-name { color: var(--pkp-teal-dark); }
 
 /* ── IKU BLOCK ── */
 .iku-block {
@@ -346,7 +369,7 @@ label.fl .opt {
 }
 .iku-num {
   width: 22px; height: 22px;
-  background: var(--ink);
+  background: var(--pkp-teal);
   color: white;
   border-radius: 5px;
   font-size: 10px;
@@ -386,10 +409,10 @@ label.fl .opt {
   display: flex; flex-direction: column; gap: 2px;
   min-width: 140px;
 }
-.satker-chip:hover { border-color: var(--ink2); }
+.satker-chip:hover { border-color: var(--pkp-teal); }
 .satker-chip.selected {
-  border-color: var(--ink);
-  background: var(--ink);
+  border-color: var(--pkp-teal);
+  background: var(--pkp-teal);
   color: white;
 }
 .satker-chip .sc-kode {
@@ -413,10 +436,10 @@ label.fl .opt {
   background: var(--white);
 }
 .upload-area:hover, .upload-area.dragover {
-  border-color: var(--navy);
-  background: var(--navy-bg);
+  border-color: var(--pkp-teal);
+  background: var(--pkp-teal-bg);
 }
-.upload-icon { font-size: 28px; margin-bottom: 8px; }
+.upload-icon { font-size: 28px; margin-bottom: 8px; color: var(--pkp-teal); }
 .upload-main { font-size: 13px; font-weight: 600; color: var(--ink2); margin-bottom: 4px; }
 .upload-sub  { font-size: 12px; color: var(--ink3); }
 .upload-btn  {
@@ -433,7 +456,7 @@ label.fl .opt {
   font-family: var(--sans);
   transition: all 0.15s;
 }
-.upload-btn:hover { border-color: var(--navy); color: var(--navy); }
+.upload-btn:hover { border-color: var(--pkp-teal); color: var(--pkp-teal); }
 #fileInput { display: none; }
 
 .file-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
@@ -452,9 +475,10 @@ label.fl .opt {
 .file-item .fi-del {
   background: none; border: none;
   color: var(--red); cursor: pointer;
-  font-size: 15px; padding: 0 4px;
+  font-size: 14px; padding: 0 4px;
   flex-shrink: 0;
 }
+.file-item .fi-del:disabled { opacity: 0.4; cursor: not-allowed; }
 .file-item .fi-type {
   font-family: var(--mono);
   font-size: 9px; font-weight: 600;
@@ -516,7 +540,7 @@ label.fl .opt {
   margin-bottom: 8px;
 }
 .iku-review-head {
-  background: var(--ink);
+  background: var(--pkp-teal);
   color: white;
   padding: 8px 12px;
   font-size: 12px;
@@ -576,7 +600,7 @@ label.fl .opt {
   outline: none;
   transition: all 0.15s;
 }
-.wh-input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(9,105,218,0.1); }
+.wh-input:focus { border-color: var(--pkp-teal); box-shadow: 0 0 0 3px rgba(4,73,95,0.1); }
 .wh-hint { font-size: 11px; color: var(--ink3); margin-top: 6px; line-height: 1.5; }
 
 /* ── CALLOUT ── */
@@ -587,7 +611,7 @@ label.fl .opt {
 }
 .callout-ico { font-size: 16px; flex-shrink: 0; }
 .callout.amber { background: var(--amber-bg); color: #6b4200; border: 1px solid rgba(154,103,0,0.2); }
-.callout.blue  { background: var(--navy-bg);  color: #0550ae; border: 1px solid rgba(9,105,218,0.2); }
+.callout.blue  { background: var(--pkp-teal-bg); color: var(--pkp-teal-dark); border: 1px solid rgba(4,73,95,0.2); }
 .callout.green { background: var(--green-bg); color: #116329; border: 1px solid rgba(26,127,55,0.2); }
 .callout.red   { background: var(--red-bg);   color: #a40e26; border: 1px solid rgba(207,34,46,0.2); }
 
@@ -610,16 +634,16 @@ label.fl .opt {
 .btn-back:hover { border-color: var(--ink3); }
 .btn-next, .btn-final {
   display: flex; align-items: center; gap: 8px;
-  background: var(--ink); color: white;
+  background: var(--pkp-teal); color: white;
   border: none; border-radius: 8px; padding: 9px 20px;
   font-size: 13px; font-weight: 600;
   cursor: pointer; font-family: var(--sans);
   transition: all 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(4,73,95,0.25);
 }
 .btn-next:hover, .btn-final:hover {
-  background: var(--ink2);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  background: var(--pkp-teal-dark);
+  box-shadow: 0 4px 14px rgba(4,73,95,0.3);
   transform: translateY(-1px);
 }
 .btn-next:disabled, .btn-final:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
@@ -628,6 +652,7 @@ label.fl .opt {
   border-radius: 8px; padding: 9px 14px;
   font-size: 13px; font-weight: 600; color: var(--ink3);
   cursor: pointer; font-family: var(--sans); transition: all 0.15s;
+  display: flex; align-items: center; gap: 6px;
 }
 .btn-draft:hover { border-color: var(--ink3); color: var(--ink2); }
 .btn-group { display: flex; gap: 8px; }
@@ -650,7 +675,7 @@ label.fl .opt {
   animation: fadeUp 0.4s ease;
 }
 .suc-icon { font-size: 60px; margin-bottom: 20px; }
-.suc-title { font-family: var(--serif); font-size: 32px; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.02em; }
+.suc-title { font-family: var(--sans); font-size: 32px; font-weight: 800; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.02em; }
 .suc-desc { font-size: 14px; color: var(--ink3); line-height: 1.7; max-width: 400px; margin: 0 auto 28px; }
 .suc-receipt {
   background: var(--white); border: 1px solid var(--line); border-radius: 12px;
@@ -659,12 +684,12 @@ label.fl .opt {
 }
 .suc-receipt strong { color: var(--ink); }
 .btn-reset {
-  background: var(--ink); color: white; border: none;
+  background: var(--pkp-teal); color: white; border: none;
   border-radius: 8px; padding: 11px 28px;
   font-size: 13px; font-weight: 600;
   cursor: pointer; font-family: var(--sans); transition: all 0.2s;
 }
-.btn-reset:hover { background: var(--ink2); }
+.btn-reset:hover { background: var(--pkp-teal-dark); }
 
 /* ── TOAST ── */
 .toast {
@@ -677,7 +702,7 @@ label.fl .opt {
 .toast.show { opacity: 1; transform: none; }
 .toast.err { background: var(--red-bg);  color: var(--red);  border: 1px solid rgba(207,34,46,0.2); }
 .toast.ok  { background: var(--green-bg); color: var(--green); border: 1px solid rgba(26,127,55,0.2); }
-.toast.inf { background: var(--navy-bg);  color: var(--navy);  border: 1px solid rgba(9,105,218,0.2); }
+.toast.inf { background: var(--pkp-teal-bg); color: var(--pkp-teal); border: 1px solid rgba(4,73,95,0.2); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 560px) {
@@ -694,8 +719,12 @@ label.fl .opt {
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-brand">
-    <div class="topbar-logo">B</div>
-    Laporan Kinerja Triwulanan 2026
+    <img src="/design/logo_pkp.png" alt="Logo PKP" class="topbar-logo-img">
+    <div class="topbar-divider"></div>
+    <div>
+      <div class="topbar-title">BP3KP Jawa III</div>
+      <div class="topbar-subtitle">Laporan Kinerja Triwulanan 2026</div>
+    </div>
   </div>
   <div class="topbar-meta">
     <div class="t-chip active" id="twChip">TW I · 2026</div>
@@ -712,7 +741,7 @@ label.fl .opt {
 
   <!-- HERO -->
   <div class="hero" id="heroSection">
-    <div class="hero-eyebrow">BP3KP Jawa III · Kementerian Perumahan & Kawasan Permukiman</div>
+    <div class="hero-eyebrow">BP3KP Jawa III · Kementerian Perumahan &amp; Kawasan Permukiman</div>
     <h1>Laporan Kinerja<br><em>Triwulanan 2026</em></h1>
     <p class="hero-sub">Isi laporan sesuai unit kerja satker Anda. Sistem akan menampilkan kolom yang relevan secara otomatis — tidak perlu scroll 59 pertanyaan.</p>
   </div>
@@ -736,7 +765,9 @@ label.fl .opt {
     <!-- Identitas Satker -->
     <div class="scard">
       <div class="scard-head">
-        <div class="scard-head-icon" style="background:#f6f8fa">🏢</div>
+        <div class="scard-head-icon" style="background:var(--pkp-teal-bg);color:var(--pkp-teal)">
+          <i class="fa-solid fa-building"></i>
+        </div>
         <div class="scard-head-text">
           <div class="scard-head-title">Identitas Satker</div>
           <div class="scard-head-sub">Pilih satker dan periode pelaporan</div>
@@ -784,7 +815,9 @@ label.fl .opt {
     <!-- Unit Kerja -->
     <div class="scard">
       <div class="scard-head">
-        <div class="scard-head-icon" style="background:#ddf4ff">🏛</div>
+        <div class="scard-head-icon" style="background:var(--pkp-teal-bg);color:var(--pkp-teal)">
+          <i class="fa-solid fa-landmark"></i>
+        </div>
         <div class="scard-head-text">
           <div class="scard-head-title">Unit Kerja yang Dilaporkan</div>
           <div class="scard-head-sub">Pilih satu unit kerja yang relevan untuk satker Anda</div>
@@ -800,7 +833,7 @@ label.fl .opt {
 
     <div class="bottom-nav">
       <div></div>
-      <button class="btn-next" onclick="goStep2()">Lanjut: Isi Capaian IKU →</button>
+      <button class="btn-next" onclick="goStep2()">Lanjut: Isi Capaian IKU <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
   </div><!-- end step1 -->
@@ -810,9 +843,11 @@ label.fl .opt {
 
     <div class="scard">
       <div class="scard-head">
-        <div class="scard-head-icon" style="background:#dcfce7">📊</div>
+        <div class="scard-head-icon" style="background:var(--green-bg);color:var(--green)">
+          <i class="fa-solid fa-chart-bar"></i>
+        </div>
         <div class="scard-head-text">
-          <div class="scard-head-title">Target & Realisasi Kinerja</div>
+          <div class="scard-head-title">Target &amp; Realisasi Kinerja</div>
           <div class="scard-head-sub" id="ukLabel2">—</div>
         </div>
       </div>
@@ -822,13 +857,13 @@ label.fl .opt {
     </div>
 
     <div class="callout blue">
-      <span class="callout-ico">💡</span>
+      <span class="callout-ico"><i class="fa-solid fa-lightbulb"></i></span>
       <div><strong>Catatan:</strong> Isi realisasi sesuai capaian aktual hingga akhir triwulan ini. Pagu dan Target 2026 diisi sekali — jika sudah pernah dilaporkan sebelumnya, isikan kembali nilai yang sama.</div>
     </div>
 
     <div class="bottom-nav">
-      <button class="btn-back" onclick="goStep(1)">← Kembali</button>
-      <button class="btn-next" onclick="goStep3()">Lanjut: Isi Narasi →</button>
+      <button class="btn-back" onclick="goStep(1)"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+      <button class="btn-next" onclick="goStep3()">Lanjut: Isi Narasi <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
   </div><!-- end step2 -->
@@ -838,7 +873,9 @@ label.fl .opt {
 
     <div class="scard">
       <div class="scard-head">
-        <div class="scard-head-icon" style="background:#fbefff">✍️</div>
+        <div class="scard-head-icon" style="background:var(--purple-bg);color:var(--purple)">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </div>
         <div class="scard-head-text">
           <div class="scard-head-title">Narasi Pelaksanaan</div>
           <div class="scard-head-sub">Diisi per indikator kinerja yang dilaporkan</div>
@@ -850,8 +887,8 @@ label.fl .opt {
     </div>
 
     <div class="bottom-nav">
-      <button class="btn-back" onclick="goStep(2)">← Kembali</button>
-      <button class="btn-next" onclick="goStep4()">Lanjut: Data Dukung →</button>
+      <button class="btn-back" onclick="goStep(2)"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+      <button class="btn-next" onclick="goStep4()">Lanjut: Data Dukung <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
   </div><!-- end step3 -->
@@ -861,7 +898,9 @@ label.fl .opt {
 
     <div class="scard">
       <div class="scard-head">
-        <div class="scard-head-icon" style="background:#fff8c5">📎</div>
+        <div class="scard-head-icon" style="background:var(--amber-bg);color:var(--amber)">
+          <i class="fa-solid fa-paperclip"></i>
+        </div>
         <div class="scard-head-text">
           <div class="scard-head-title">Data Dukung</div>
           <div class="scard-head-sub">Upload file bukti pelaksanaan atau isi link dokumen</div>
@@ -876,7 +915,7 @@ label.fl .opt {
             ondragover="event.preventDefault(); this.classList.add('dragover')"
             ondragleave="this.classList.remove('dragover')"
             ondrop="handleDrop(event)">
-            <div class="upload-icon">📁</div>
+            <div class="upload-icon"><i class="fa-solid fa-folder-open"></i></div>
             <div class="upload-main">Seret file ke sini</div>
             <div class="upload-sub">Word, Excel, PDF, PPT, Gambar, Video — maks. 10 file, 100MB/file</div>
             <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Pilih File</button>
@@ -900,13 +939,13 @@ label.fl .opt {
     </div>
 
     <div class="callout amber">
-      <span class="callout-ico">⚠️</span>
+      <span class="callout-ico"><i class="fa-solid fa-triangle-exclamation"></i></span>
       <div>Pastikan data dukung sudah mencakup <strong>bukti pelaksanaan kegiatan</strong> triwulan ini. Dokumen yang dapat diterima: laporan kegiatan, foto dokumentasi, SK, Berita Acara, dan sejenisnya.</div>
     </div>
 
     <div class="bottom-nav">
-      <button class="btn-back" onclick="goStep(3)">← Kembali</button>
-      <button class="btn-next" onclick="goStep5()">Lanjut: Review & Submit →</button>
+      <button class="btn-back" onclick="goStep(3)"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+      <button class="btn-next" onclick="goStep5()">Lanjut: Review &amp; Submit <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
   </div><!-- end step4 -->
@@ -917,7 +956,9 @@ label.fl .opt {
     <!-- Review -->
     <div class="scard">
       <div class="scard-head">
-        <div class="scard-head-icon" style="background:#f6f8fa">🔍</div>
+        <div class="scard-head-icon" style="background:var(--pkp-teal-bg);color:var(--pkp-teal)">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
         <div class="scard-head-text">
           <div class="scard-head-title">Ringkasan Laporan</div>
           <div class="scard-head-sub">Periksa kembali sebelum submit</div>
@@ -929,17 +970,19 @@ label.fl .opt {
     </div>
 
     <div class="callout amber">
-      <span class="callout-ico">⚠️</span>
+      <span class="callout-ico"><i class="fa-solid fa-triangle-exclamation"></i></span>
       <div>Submit <strong>Final</strong> berarti laporan dikirim ke koordinator dan tidak bisa diubah sendiri. Pilih <strong>Simpan Draft</strong> jika ingin melengkapi nanti.</div>
     </div>
 
     <div class="bottom-nav">
-      <button class="btn-back" onclick="goStep(4)">← Kembali</button>
+      <button class="btn-back" onclick="goStep(4)"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
       <div class="btn-group">
-        <button class="btn-draft" onclick="doSubmit('DRAFT')">💾 Simpan Draft</button>
+        <button class="btn-draft" onclick="doSubmit('DRAFT')">
+          <i class="fa-solid fa-floppy-disk"></i> Simpan Draft
+        </button>
         <button class="btn-final" id="btnFinal" onclick="doSubmit('FINAL')">
           <div class="spinner" id="spinner"></div>
-          <span id="btnLabel">✓ Submit Final</span>
+          <span id="btnLabel"><i class="fa-solid fa-check"></i> Submit Final</span>
         </button>
       </div>
     </div>
@@ -948,7 +991,7 @@ label.fl .opt {
 
   <!-- SUCCESS -->
   <div id="successView">
-    <div class="suc-icon">✅</div>
+    <div class="suc-icon"><i class="fa-solid fa-circle-check" style="color:var(--green)"></i></div>
     <div class="suc-title">Laporan Terkirim!</div>
     <div class="suc-desc">Data laporan kinerja triwulanan Anda sudah diterima dan otomatis masuk ke sistem koordinator.</div>
     <div class="suc-receipt" id="sucReceipt"></div>
@@ -1213,7 +1256,9 @@ function goStep(n) {
     if (ps) {
       ps.classList.toggle("active", i === n);
       ps.classList.toggle("done",   i < n);
-      ps.querySelector(".prog-dot").textContent = i < n ? "✓" : i;
+      ps.querySelector(".prog-dot").innerHTML = i < n
+        ? '<i class="fa-solid fa-check" style="font-size:11px"></i>'
+        : i;
     }
     const pl = document.getElementById("pl" + i);
     if (pl) pl.classList.toggle("done", i < n);
@@ -1303,8 +1348,8 @@ function buildReview() {
     <div class="review-block" style="margin-top:10px">
       <div class="review-label">Data Dukung</div>
       <div class="review-val" style="font-size:12px">
-        ${state.uploadedFiles.length > 0 ? `📎 ${state.uploadedFiles.length} file: ${filesSummary}` : ""}
-        ${linkVal !== "—" ? `<br>🔗 ${linkVal}` : ""}
+        ${state.uploadedFiles.length > 0 ? `<i class="fa-solid fa-paperclip"></i> ${state.uploadedFiles.length} file: ${filesSummary}` : ""}
+        ${linkVal !== "—" ? `<br><i class="fa-solid fa-link"></i> ${linkVal}` : ""}
       </div>
     </div>
   `;
@@ -1358,14 +1403,16 @@ function renderFileList() {
       ? (f.sizeBytes/1024).toFixed(0) + " KB"
       : (f.sizeBytes/1024/1024).toFixed(1) + " MB";
     const status = f.uploading
-      ? `<span class="fi-size" style="color:var(--amber)">⏳ Mengupload...</span>`
+      ? `<span class="fi-size" style="color:var(--amber)"><i class="fa-solid fa-spinner fa-spin"></i> Mengupload...</span>`
       : `<span class="fi-size">${size}</span>`;
     return `
       <div class="file-item">
         <span class="fi-type">${ext}</span>
         <span class="fi-name">${f.name}</span>
         ${status}
-        <button class="fi-del" onclick="removeFile(${i})" ${f.uploading ? "disabled" : ""}>✕</button>
+        <button class="fi-del" onclick="removeFile(${i})" ${f.uploading ? "disabled" : ""}>
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
     `;
   }).join("");
@@ -1438,7 +1485,9 @@ async function doSubmit(status) {
     toast("Laporan berhasil disimpan!", "ok");
   } catch(e) {
     toast("Gagal: " + e.message, "err");
-    btn.disabled = false; sp.style.display = "none"; lbl.textContent = "✓ Submit Final";
+    btn.disabled = false;
+    sp.style.display = "none";
+    lbl.innerHTML = '<i class="fa-solid fa-check"></i> Submit Final';
   }
 }
 

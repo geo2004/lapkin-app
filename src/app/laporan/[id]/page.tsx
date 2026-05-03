@@ -68,25 +68,29 @@ export default async function LaporanDetailPage({ params }: Props) {
     <div>
       {/* TOPBAR */}
       <div style={{
-        background: "var(--ink)", color: "white", padding: "0 24px",
-        height: 50, display: "flex", alignItems: "center",
+        background: "var(--pkp-teal)", color: "white", padding: "0 24px",
+        height: 56, display: "flex", alignItems: "center",
         justifyContent: "space-between", position: "sticky", top: 0, zIndex: 200,
+        borderBottom: "3px solid var(--pkp-gold)",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, fontWeight: 600 }}>
-          <div style={{
-            width: 28, height: 28, background: "linear-gradient(135deg,#f59e0b,#fbbf24)",
-            borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 13, color: "var(--ink)",
-          }}>B</div>
-          Detail Laporan #{submission.id}
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/design/logo_pkp.png" alt="Logo PKP" style={{ height: 32, objectFit: "contain" }} />
+          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.25)" }} />
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.01em", lineHeight: 1.2 }}>
+              Detail Laporan #{submission.id}
+            </div>
+            <div style={{ fontSize: 10, opacity: 0.65 }}>BP3KP Jawa III · Kinerja Triwulanan 2026</div>
+          </div>
         </div>
         <a href="/dashboard" style={{
           fontFamily: "var(--mono)", fontSize: 10, fontWeight: 500,
           padding: "3px 9px", borderRadius: 4,
           border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)",
-          textDecoration: "none",
+          textDecoration: "none", display: "flex", alignItems: "center", gap: 5,
         }}>
-          ← Dashboard
+          <i className="fa-solid fa-arrow-left" style={{ fontSize: 9 }}></i> Dashboard
         </a>
       </div>
 
@@ -149,7 +153,7 @@ export default async function LaporanDetailPage({ params }: Props) {
                     display: "flex", alignItems: "center", gap: 8,
                   }}>
                     <span style={{
-                      width: 22, height: 22, background: "var(--ink)", color: "white",
+                      width: 22, height: 22, background: "var(--pkp-teal)", color: "white",
                       borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center",
                       fontSize: 10, fontWeight: 700, flexShrink: 0,
                     }}>
@@ -244,9 +248,9 @@ export default async function LaporanDetailPage({ params }: Props) {
                         background: "var(--navy-bg)", color: "var(--navy)",
                         border: "1px solid var(--navy)33", borderRadius: 5,
                         padding: "3px 9px", fontSize: 11, fontWeight: 600,
-                        textDecoration: "none",
+                        textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4,
                       }}>
-                      Download
+                      <i className="fa-solid fa-download" style={{ fontSize: 10 }}></i> Download
                     </a>
                   </div>
                 )

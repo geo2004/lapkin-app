@@ -134,17 +134,18 @@ export function SubmissionsTable({ rows, total, page, totalPages }: Props) {
                           background: "var(--navy-bg)", color: "var(--navy)",
                           border: "1px solid var(--navy)33", borderRadius: 6,
                           padding: "4px 8px", fontSize: 11, fontWeight: 600,
-                          textDecoration: "none",
+                          textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4,
                         }}>
-                        Detail
+                        <i className="fa-solid fa-eye" style={{ fontSize: 10 }}></i> Detail
                       </a>
                       <button onClick={() => handleDelete(r.id)}
                         style={{
                           background: "var(--red-bg)", color: "var(--red)",
                           border: "1px solid var(--red)33", borderRadius: 6,
                           padding: "4px 8px", fontSize: 11, fontWeight: 600,
+                          display: "inline-flex", alignItems: "center", gap: 4,
                         }}>
-                        Hapus
+                        <i className="fa-solid fa-trash" style={{ fontSize: 10 }}></i> Hapus
                       </button>
                     </div>
                   </td>
@@ -162,8 +163,9 @@ export function SubmissionsTable({ rows, total, page, totalPages }: Props) {
               background: "var(--white)", border: "1px solid var(--line)",
               borderRadius: 7, padding: "6px 14px", fontSize: 13, fontWeight: 600,
               color: "var(--ink2)", opacity: page <= 1 ? 0.4 : 1,
+              display: "flex", alignItems: "center", gap: 6,
             }}>
-            ← Prev
+            <i className="fa-solid fa-arrow-left" style={{ fontSize: 11 }}></i> Prev
           </button>
           <span style={{ fontSize: 13, color: "var(--ink3)" }}>
             Halaman {page} dari {totalPages}
@@ -173,8 +175,9 @@ export function SubmissionsTable({ rows, total, page, totalPages }: Props) {
               background: "var(--white)", border: "1px solid var(--line)",
               borderRadius: 7, padding: "6px 14px", fontSize: 13, fontWeight: 600,
               color: "var(--ink2)", opacity: page >= totalPages ? 0.4 : 1,
+              display: "flex", alignItems: "center", gap: 6,
             }}>
-            Next →
+            Next <i className="fa-solid fa-arrow-right" style={{ fontSize: 11 }}></i>
           </button>
         </div>
       )}
