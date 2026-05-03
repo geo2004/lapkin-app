@@ -26,7 +26,7 @@ export function FilterBar() {
     <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 16 }}>
       <select style={sel} value={sp.get("satker") ?? ""} onChange={(e) => update("satker", e.target.value)}>
         <option value="">Semua Satker</option>
-        {SATKER_LIST.map((s) => <option key={s.kode} value={s.kode}>{s.nama}</option>)}
+        {SATKER_LIST.map((s) => <option key={s.kode} value={s.kode}>{s.kode} — {s.nama}</option>)}
       </select>
 
       <select style={sel} value={sp.get("unit") ?? ""} onChange={(e) => update("unit", e.target.value)}>
