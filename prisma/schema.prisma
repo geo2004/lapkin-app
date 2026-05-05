@@ -39,6 +39,7 @@ model IKU {
 
   urutan               Int
   nama_iku             String
+  satuan               String @default("")
   pagu                 Float  @default(0)
   target_2026          Float  @default(0)
   target_tw            Float  @default(0)

@@ -1205,6 +1205,13 @@ function renderIKUForm() {
           <label class="fl">Indikator Kinerja</label>
           <input class="fi muted" value="${nama}" readonly>
         </div>
+        <div class="fg-row">
+          <div class="fg">
+            <label class="fl">Satuan Keluaran</label>
+            <input class="fi" id="satuan_${i}" placeholder="Dokumen, Paket, Unit, Laporan, Orang, ...">
+            <div class="fhint">Satuan ukuran output IKU ini</div>
+          </div>
+        </div>
         <div class="fg-row3">
           <div class="fg">
             <label class="fl">Pagu</label>
@@ -1478,6 +1485,7 @@ async function doSubmit(status) {
   const ikuData = uk.iku.map((nama, i) => ({
     urutan: i + 1,
     nama_iku:       nama,
+    satuan:         document.getElementById("satuan_"+i)?.value.trim() || "",
     pagu:           parseFloat(document.getElementById("pagu_"+i)?.value)||0,
     target_2026:    parseFloat(document.getElementById("target2026_"+i)?.value)||0,
     target_tw:      parseFloat(document.getElementById("targetTW_"+i)?.value)||0,

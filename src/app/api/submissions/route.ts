@@ -84,6 +84,7 @@ export async function POST(req: NextRequest) {
           create: iku.map((item: IKUInput) => ({
             urutan: item.urutan,
             nama_iku: item.nama_iku,
+            satuan: item.satuan || "",
             pagu: Number(item.pagu) || 0,
             target_2026: Number(item.target_2026) || 0,
             target_tw: Number(item.target_tw) || 0,
@@ -117,6 +118,7 @@ export async function POST(req: NextRequest) {
 interface IKUInput {
   urutan: number
   nama_iku: string
+  satuan?: string
   pagu: number
   target_2026: number
   target_tw: number

@@ -84,14 +84,25 @@ export default async function LaporanDetailPage({ params }: Props) {
             <div className="topbar-subtitle-hide" style={{ fontSize: 10, opacity: 0.65 }}>BP3KP Jawa III · Kinerja Triwulanan 2026</div>
           </div>
         </div>
-        <a href="/dashboard" style={{
-          fontFamily: "var(--mono)", fontSize: 10, fontWeight: 500,
-          padding: "3px 9px", borderRadius: 4,
-          border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)",
-          textDecoration: "none", display: "flex", alignItems: "center", gap: 5,
-        }}>
-          <i className="fa-solid fa-arrow-left" style={{ fontSize: 9 }}></i> Dashboard
-        </a>
+        <div style={{ display: "flex", gap: 8 }}>
+          <a href={`/laporan/${submission.id}/edit`} style={{
+            fontFamily: "var(--mono)", fontSize: 10, fontWeight: 600,
+            padding: "3px 10px", borderRadius: 4,
+            background: "var(--pkp-gold)", color: "var(--pkp-teal-dark)",
+            textDecoration: "none", display: "flex", alignItems: "center", gap: 5,
+            border: "none",
+          }}>
+            <i className="fa-solid fa-pen" style={{ fontSize: 9 }}></i> Edit
+          </a>
+          <a href="/dashboard" style={{
+            fontFamily: "var(--mono)", fontSize: 10, fontWeight: 500,
+            padding: "3px 10px", borderRadius: 4,
+            border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)",
+            textDecoration: "none", display: "flex", alignItems: "center", gap: 5,
+          }}>
+            <i className="fa-solid fa-arrow-left" style={{ fontSize: 9 }}></i> Dashboard
+          </a>
+        </div>
       </div>
 
       <div className="detail-shell" style={{ maxWidth: 900, margin: "0 auto", padding: "28px 20px 80px" }}>
@@ -162,8 +173,9 @@ export default async function LaporanDetailPage({ params }: Props) {
                     <span style={{ fontSize: 13, fontWeight: 600 }}>{iku.nama_iku}</span>
                   </div>
                   <div style={{ padding: 14 }}>
-                    <div className="grid-5col" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 12 }}>
+                    <div className="grid-5col" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12, marginBottom: 12 }}>
                       {[
+                        ["Satuan", iku.satuan || "—"],
                         ["Pagu", `Rp ${fmt(iku.pagu)}`],
                         ["Target 2026", iku.target_2026],
                         ["Target TW", iku.target_tw],

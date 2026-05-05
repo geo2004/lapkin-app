@@ -11,6 +11,7 @@ const GRAY_LIGHT  = "FFF6F8FA"
 type IKURow = {
   urutan: number
   nama_iku: string
+  satuan: string
   pagu: number
   target_2026: number
   target_tw: number
@@ -127,15 +128,16 @@ export async function buildLapkinWorkbook(submissions: SubmissionFull[]): Promis
 
   const s2Cols = [
     "No", "ID Sub", "Satker", "Triwulan", "Unit Kerja",
-    "Urutan", "Nama IKU",
+    "Urutan", "Nama IKU", "Satuan",
     "Pagu (Rp)", "Target 2026", "Target TW",
     "Real. Output", "Real. Keuangan (Rp)", "% Capaian",
     "Keterangan", "Permasalahan", "Tindak Lanjut", "Faktor Keberhasilan",
   ]
 
-  ws2.mergeCells(`A1:Q1`)
+  ws2.mergeCells(`A1:R1`)
   const t2 = ws2.getCell("A1")
   t2.value = "DETAIL CAPAIAN IKU — LAPORAN KINERJA BP3KP JAWA III 2026"
+
   t2.font = { bold: true, size: 12, color: { argb: WHITE } }
   t2.fill = { type: "pattern", pattern: "solid", fgColor: { argb: NAVY } }
   t2.alignment = { horizontal: "center", vertical: "middle" }
@@ -151,7 +153,7 @@ export async function buildLapkinWorkbook(submissions: SubmissionFull[]): Promis
       rowNo++
       const row = ws2.addRow([
         rowNo, s.id, s.kode_satker, s.triwulan, s.unit_kerja_kode,
-        iku.urutan, iku.nama_iku,
+        iku.urutan, iku.nama_iku, iku.satuan,
         rupiah(iku.pagu), iku.target_2026, iku.target_tw,
         iku.realisasi_output, rupiah(iku.realisasi_keuangan), iku.pct_capaian,
         iku.keterangan, iku.permasalahan, iku.tindak_lanjut, iku.faktor_keberhasilan,
@@ -161,9 +163,9 @@ export async function buildLapkinWorkbook(submissions: SubmissionFull[]): Promis
     })
   })
 
-  const colWidths2 = [5, 7, 10, 8, 10, 7, 50, 18, 10, 10, 12, 18, 10, 35, 35, 35, 35]
+  const colWidths2 = [5, 7, 10, 8, 10, 7, 50, 12, 18, 10, 10, 12, 18, 10, 35, 35, 35, 35]
   colWidths2.forEach((w, i) => { ws2.getColumn(i + 1).width = w })
-  ws2.autoFilter = { from: "A2", to: "Q2" }
+  ws2.autoFilter = { from: "A2", to: "R2" }
   ws2.views = [{ state: "frozen", ySplit: 2 }]
 
   // ── Sheet 3: Ringkasan per Unit ─────────────────────────────────────────────
