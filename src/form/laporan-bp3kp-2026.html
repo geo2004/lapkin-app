@@ -387,6 +387,23 @@ label.fl .opt {
 .iku-body { padding: 14px; }
 .iku-body .fg-row3 { gap: 10px; }
 .iku-body .fg { margin-bottom: 10px; }
+.btn-add-iku {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 8px; cursor: pointer;
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  background: var(--navy-bg); color: var(--navy);
+  border: 1.5px dashed var(--navy); opacity: 0.7;
+  transition: all 0.15s; margin-top: 4px;
+}
+.btn-add-iku:hover { opacity: 1; }
+.iku-title-input {
+  flex: 1; min-width: 0; font-size: 13px; font-weight: 600;
+  background: transparent; border: 1.5px solid transparent;
+  border-radius: 5px; padding: 3px 6px;
+  color: var(--ink); font-family: var(--sans); outline: none;
+}
+.iku-title-input:focus { border-color: var(--line); background: var(--white); }
+.iku-title-input::placeholder { color: var(--ink3); font-weight: 400; }
 
 /* ── SATKER CHIPS ── */
 .satker-grid {
@@ -1141,6 +1158,7 @@ const UNIT_KERJA = [
 let state = {
   satker: null,
   unitKerja: null,
+  ikuNames: [],        // mutable copy of unitKerja.iku + any custom additions
   currentStep: 1,
   uploadedFiles: [],   // File objects (untuk preview)
   filesMeta: [],       // { fileId, name, sizeBytes } setelah upload ke server
@@ -1184,27 +1202,32 @@ function renderUKGrid() {
 
 function selectUK(kode) {
   state.unitKerja = UNIT_KERJA.find(uk => uk.kode === kode);
+  state.ikuNames  = [...state.unitKerja.iku]; // mutable copy; resets when UK changes
   document.querySelectorAll(".uk-btn").forEach(el => el.classList.remove("selected"));
   document.getElementById("uk_" + kode).classList.add("selected");
 }
 
 // ── RENDER IKU FORM ──────────────────────────────
-function renderIKUForm() {
+function ikuBlockHTML(i, nama, isNew) {
   const uk = state.unitKerja;
-  document.getElementById("ukLabel2").textContent = uk.nama + " · " + uk.iku.length + " indikator";
-
-  const container = document.getElementById("ikuContainer");
-  container.innerHTML = uk.iku.map((nama, i) => `
-    <div class="iku-block" style="animation-delay:${i*0.04}s">
-      <div class="iku-head">
-        <div class="iku-num" style="background:${uk.warna}">${i+1}</div>
-        <div class="iku-title">${nama}</div>
-      </div>
-      <div class="iku-body">
+  const nameField = isNew
+    ? `<input class="iku-title-input" id="namaiku_${i}" value="${nama}"
+         placeholder="Nama indikator kinerja baru..."
+         oninput="state.ikuNames[${i}]=this.value">`
+    : `<div class="iku-title">${nama}</div>`;
+  const bodyNameField = isNew ? "" : `
         <div class="fg">
           <label class="fl">Indikator Kinerja</label>
           <input class="fi muted" value="${nama}" readonly>
-        </div>
+        </div>`;
+  return `
+    <div class="iku-block" id="iku_block_${i}" style="animation-delay:${Math.min(i,5)*0.04}s">
+      <div class="iku-head">
+        <div class="iku-num" style="background:${uk.warna}">${i+1}</div>
+        ${nameField}
+      </div>
+      <div class="iku-body">
+        ${bodyNameField}
         <div class="fg-row">
           <div class="fg">
             <label class="fl">Satuan Keluaran</label>
@@ -1244,8 +1267,30 @@ function renderIKUForm() {
           </div>
         </div>
       </div>
-    </div>
-  `).join("");
+    </div>`;
+}
+
+function renderIKUForm() {
+  const uk = state.unitKerja;
+  const names = state.ikuNames;
+  const presetCount = uk.iku.length;
+  document.getElementById("ukLabel2").textContent = uk.nama + " · " + names.length + " indikator";
+  const container = document.getElementById("ikuContainer");
+  container.innerHTML = names.map((nama, i) => ikuBlockHTML(i, nama, i >= presetCount)).join("") + `
+    <div id="addIkuRow" style="padding:6px 0 0">
+      <button type="button" class="btn-add-iku" onclick="addIKU()">
+        <i class="fa-solid fa-plus"></i> Tambah IKU
+      </button>
+    </div>`;
+}
+
+function addIKU() {
+  const i = state.ikuNames.length;
+  state.ikuNames.push("");
+  document.getElementById("addIkuRow").insertAdjacentHTML("beforebegin", ikuBlockHTML(i, "", true));
+  document.getElementById("ukLabel2").textContent = state.unitKerja.nama + " · " + state.ikuNames.length + " indikator";
+  const inp = document.getElementById("namaiku_" + i);
+  if (inp) { inp.scrollIntoView({ behavior: "smooth", block: "center" }); inp.focus(); }
 }
 
 function calcCapaian(i) {
@@ -1261,11 +1306,11 @@ function calcCapaian(i) {
 function renderNarasiForm() {
   const uk = state.unitKerja;
   const container = document.getElementById("narasiContainer");
-  container.innerHTML = uk.iku.map((nama, i) => `
-    <div class="iku-block" style="animation-delay:${i*0.04}s; margin-bottom:14px">
+  container.innerHTML = state.ikuNames.map((nama, i) => `
+    <div class="iku-block" style="animation-delay:${Math.min(i,5)*0.04}s; margin-bottom:14px">
       <div class="iku-head">
         <div class="iku-num" style="background:${uk.warna}">${i+1}</div>
-        <div class="iku-title">${nama}</div>
+        <div class="iku-title">${nama || "(IKU Baru " + (i+1) + ")"}</div>
       </div>
       <div class="iku-body">
         <div class="fg">
@@ -1323,6 +1368,15 @@ function goStep2() {
 }
 
 function goStep3() {
+  const uk = state.unitKerja;
+  for (let i = uk.iku.length; i < state.ikuNames.length; i++) {
+    if (!state.ikuNames[i].trim()) {
+      toast("Isi nama IKU baru sebelum melanjutkan", "err");
+      const inp = document.getElementById("namaiku_" + i);
+      if (inp) { inp.scrollIntoView({ behavior: "smooth", block: "center" }); inp.focus(); }
+      return;
+    }
+  }
   renderNarasiForm();
   goStep(3);
 }
@@ -1339,9 +1393,9 @@ function goStep5() {
 // ── BUILD REVIEW ─────────────────────────────────
 function buildReview() {
   const uk = state.unitKerja;
-  const n  = uk.iku.length;
+  const n  = state.ikuNames.length;
 
-  const ikuRows = uk.iku.map((nama, i) => {
+  const ikuRows = state.ikuNames.map((nama, i) => {
     const tgt = document.getElementById("targetTW_" + i)?.value || "—";
     const rel = document.getElementById("realOutput_" + i)?.value || "—";
     const pct = document.getElementById("pctCapaian_" + i)?.value || "—";
@@ -1353,7 +1407,7 @@ function buildReview() {
       parseFloat(pct) >= 60 ? "var(--amber)" : "var(--red)";
     return `
       <div class="iku-review-item">
-        <div class="iku-review-head" style="background:${uk.warna}">${i+1}. ${nama}</div>
+        <div class="iku-review-head" style="background:${uk.warna}">${i+1}. ${nama || "(IKU Baru " + (i+1) + ")"}</div>
         <div class="iku-review-body">
           <div class="irb-item"><div class="irb-label">Target TW</div><div class="irb-val">${tgt}</div></div>
           <div class="irb-item"><div class="irb-label">Realisasi</div><div class="irb-val">${rel}</div></div>
@@ -1482,9 +1536,9 @@ async function doSubmit(status) {
     toast("Tunggu hingga semua file selesai diupload", "err"); return;
   }
 
-  const ikuData = uk.iku.map((nama, i) => ({
+  const ikuData = state.ikuNames.map((nama, i) => ({
     urutan: i + 1,
-    nama_iku:       nama,
+    nama_iku:       nama.trim() || "(IKU Baru " + (i+1) + ")",
     satuan:         document.getElementById("satuan_"+i)?.value.trim() || "",
     pagu:           parseFloat(document.getElementById("pagu_"+i)?.value)||0,
     target_2026:    parseFloat(document.getElementById("target2026_"+i)?.value)||0,

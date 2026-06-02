@@ -124,6 +124,7 @@ export function EditForm({ initialData }: { initialData: InitialData }) {
 
   // IKU list
   const [ikuList, setIkuList] = useState<IKUState[]>(initialData.iku)
+  const [selectedIkuIdx, setSelectedIkuIdx] = useState(0)
 
   // Files
   const [existingFiles, setExistingFiles] = useState<FileState[]>(initialData.files)
@@ -154,9 +155,9 @@ export function EditForm({ initialData }: { initialData: InitialData }) {
     if (!confirm(`Hapus IKU "${ikuList[idx].nama_iku}"? Perubahan baru berlaku setelah disimpan.`)) return
     setIkuList((prev) => {
       const next = prev.filter((_, i) => i !== idx)
-      // Renumber urutan
       return next.map((item, i) => ({ ...item, urutan: i + 1 }))
     })
+    setSelectedIkuIdx(prev => Math.min(prev, Math.max(0, ikuList.length - 2)))
   }
 
   // ── File helpers ──
@@ -412,156 +413,199 @@ export function EditForm({ initialData }: { initialData: InitialData }) {
             <div style={{ fontSize: 13, fontWeight: 700 }}>Capaian IKU</div>
             <div style={{ fontSize: 11, color: "var(--ink3)" }}>{ikuList.length} indikator</div>
           </div>
-          <div style={{ padding: "16px 18px" }}>
-            {ikuList.length === 0 && (
-              <div style={{ color: "var(--ink3)", fontSize: 13, textAlign: "center", padding: "24px 0" }}>
-                Semua IKU telah dihapus. Simpan untuk menerapkan perubahan.
-              </div>
-            )}
-            {ikuList.map((iku, idx) => (
-              <div key={`${iku.id ?? "new"}-${idx}`} style={{
-                border: "1px solid var(--line)", borderRadius: 10,
-                overflow: "hidden", marginBottom: 14,
-              }}>
-                {/* IKU header */}
-                <div style={{
-                  display: "flex", alignItems: "center", justifyContent: "space-between",
-                  padding: "8px 14px", background: "var(--line2)",
-                  borderBottom: "1px solid var(--line)",
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }}>
-                    <span style={{
-                      width: 22, height: 22, background: uc.color, color: "white",
-                      borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 10, fontWeight: 700, flexShrink: 0,
-                    }}>
-                      {iku.urutan}
-                    </span>
-                    <input
-                      style={{
-                        flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600,
-                        background: "transparent", border: "1.5px solid transparent",
-                        borderRadius: 5, padding: "3px 6px",
-                        color: "var(--ink)", fontFamily: "var(--sans)", outline: "none",
-                      }}
-                      value={iku.nama_iku}
-                      onChange={(e) => updateIKU(idx, "nama_iku", e.target.value)}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = "var(--line)")}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = "transparent")}
-                      placeholder="Nama IKU..."
-                    />
-                  </div>
+
+          {ikuList.length === 0 ? (
+            <div style={{ padding: "24px 18px", color: "var(--ink3)", fontSize: 13, textAlign: "center" }}>
+              Semua IKU telah dihapus. Simpan untuk menerapkan perubahan.
+            </div>
+          ) : (
+            <div style={{ padding: "16px 18px" }}>
+
+              {/* ── Selector ── */}
+              <div style={{ marginBottom: 16 }}>
+                <label style={fl}>Pilih Indikator</label>
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                   <button
-                    onClick={() => deleteIKU(idx)}
-                    title="Hapus IKU ini"
+                    onClick={() => setSelectedIkuIdx(i => Math.max(0, i - 1))}
+                    disabled={selectedIkuIdx === 0}
                     style={{
-                      background: "var(--red-bg)", color: "var(--red)",
-                      border: "1px solid var(--red)33", borderRadius: 6,
-                      padding: "3px 10px", fontSize: 11, fontWeight: 600,
-                      cursor: "pointer", display: "flex", alignItems: "center", gap: 4,
+                      width: 32, height: 32, borderRadius: 7, border: "1px solid var(--line)",
+                      background: "var(--white)", cursor: selectedIkuIdx === 0 ? "not-allowed" : "pointer",
+                      opacity: selectedIkuIdx === 0 ? 0.4 : 1,
+                      display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                     }}>
-                    <i className="fa-solid fa-trash" style={{ fontSize: 9 }}></i> Hapus IKU
+                    <i className="fa-solid fa-chevron-left" style={{ fontSize: 11 }}></i>
+                  </button>
+                  <select
+                    style={{ ...fi, flex: 1 }}
+                    value={selectedIkuIdx}
+                    onChange={(e) => setSelectedIkuIdx(Number(e.target.value))}>
+                    {ikuList.map((iku, idx) => (
+                      <option key={idx} value={idx}>
+                        {iku.urutan}. {iku.nama_iku}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={() => setSelectedIkuIdx(i => Math.min(ikuList.length - 1, i + 1))}
+                    disabled={selectedIkuIdx === ikuList.length - 1}
+                    style={{
+                      width: 32, height: 32, borderRadius: 7, border: "1px solid var(--line)",
+                      background: "var(--white)",
+                      cursor: selectedIkuIdx === ikuList.length - 1 ? "not-allowed" : "pointer",
+                      opacity: selectedIkuIdx === ikuList.length - 1 ? 0.4 : 1,
+                      display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                    }}>
+                    <i className="fa-solid fa-chevron-right" style={{ fontSize: 11 }}></i>
                   </button>
                 </div>
-
-                {/* IKU fields */}
-                <div style={{ padding: "14px" }}>
-                  {/* Satuan */}
-                  <div style={{ marginBottom: 12 }}>
-                    <label style={fl}>Satuan Keluaran</label>
-                    <input
-                      style={fi}
-                      value={iku.satuan}
-                      onChange={(e) => updateIKU(idx, "satuan", e.target.value)}
-                      placeholder="Dokumen, Paket, Unit, Laporan, Orang, ..."
-                    />
-                  </div>
-
-                  {/* Row 1: Pagu, Target 2026, Target TW */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 10 }}>
-                    <div>
-                      <label style={fl}>Pagu <span style={{ fontWeight: 400, textTransform: "none" }}>(Rp)</span></label>
-                      <input style={fiMono} type="number" min="0"
-                        value={iku.pagu || ""}
-                        onChange={(e) => updateIKU(idx, "pagu", parseFloat(e.target.value) || 0)}
-                        placeholder="0" />
-                    </div>
-                    <div>
-                      <label style={fl}>Target 2026</label>
-                      <input style={fiMono} type="number" min="0"
-                        value={iku.target_2026 || ""}
-                        onChange={(e) => updateIKU(idx, "target_2026", parseFloat(e.target.value) || 0)}
-                        placeholder="0" />
-                    </div>
-                    <div>
-                      <label style={fl}>Target TW Ini</label>
-                      <input style={fiMono} type="number" min="0"
-                        value={iku.target_tw || ""}
-                        onChange={(e) => updateIKU(idx, "target_tw", parseFloat(e.target.value) || 0)}
-                        placeholder="0" />
-                    </div>
-                  </div>
-
-                  {/* Row 2: Realisasi Output, Realisasi Keuangan, % Capaian */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 12 }}>
-                    <div>
-                      <label style={fl}>Realisasi Output</label>
-                      <input style={fiMono} type="number" min="0"
-                        value={iku.realisasi_output || ""}
-                        onChange={(e) => updateIKU(idx, "realisasi_output", parseFloat(e.target.value) || 0)}
-                        placeholder="0" />
-                    </div>
-                    <div>
-                      <label style={fl}>Realisasi Keuangan <span style={{ fontWeight: 400, textTransform: "none" }}>(Rp)</span></label>
-                      <input style={fiMono} type="number" min="0"
-                        value={iku.realisasi_keuangan || ""}
-                        onChange={(e) => updateIKU(idx, "realisasi_keuangan", parseFloat(e.target.value) || 0)}
-                        placeholder="0" />
-                    </div>
-                    <div>
-                      <label style={fl}>% Capaian Output</label>
-                      <input style={{ ...fiMono, background: "var(--line2)", color: "var(--ink3)" }}
-                        value={iku.pct_capaian} readOnly />
-                    </div>
-                  </div>
-
-                  {/* Narasi */}
-                  <div style={{ display: "grid", gap: 10 }}>
-                    <div>
-                      <label style={fl}>Keterangan Kegiatan</label>
-                      <textarea style={{ ...fta, minHeight: 60 }}
-                        value={iku.keterangan}
-                        onChange={(e) => updateIKU(idx, "keterangan", e.target.value)}
-                        placeholder="Uraikan kegiatan yang telah dilaksanakan..." />
-                    </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                      <div>
-                        <label style={fl}>Permasalahan</label>
-                        <textarea style={{ ...fta, minHeight: 56 }}
-                          value={iku.permasalahan}
-                          onChange={(e) => updateIKU(idx, "permasalahan", e.target.value)}
-                          placeholder="Hambatan atau kendala..." />
-                      </div>
-                      <div>
-                        <label style={fl}>Tindak Lanjut</label>
-                        <textarea style={{ ...fta, minHeight: 56 }}
-                          value={iku.tindak_lanjut}
-                          onChange={(e) => updateIKU(idx, "tindak_lanjut", e.target.value)}
-                          placeholder="Rencana tindak lanjut..." />
-                      </div>
-                    </div>
-                    <div>
-                      <label style={fl}>Faktor Keberhasilan</label>
-                      <textarea style={{ ...fta, minHeight: 56 }}
-                        value={iku.faktor_keberhasilan}
-                        onChange={(e) => updateIKU(idx, "faktor_keberhasilan", e.target.value)}
-                        placeholder="Faktor pendukung keberhasilan..." />
-                    </div>
-                  </div>
+                <div style={{ fontSize: 11, color: "var(--ink3)", marginTop: 5, fontFamily: "var(--mono)" }}>
+                  IKU {selectedIkuIdx + 1} dari {ikuList.length}
                 </div>
               </div>
-            ))}
-          </div>
+
+              {/* ── Selected IKU form ── */}
+              {(() => {
+                const idx = selectedIkuIdx
+                const iku = ikuList[idx]
+                if (!iku) return null
+                return (
+                  <div style={{ border: "1px solid var(--line)", borderRadius: 10, overflow: "hidden" }}>
+                    {/* header */}
+                    <div style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      padding: "8px 14px", background: "var(--line2)",
+                      borderBottom: "1px solid var(--line)",
+                    }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }}>
+                        <span style={{
+                          width: 22, height: 22, background: uc.color, color: "white",
+                          borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: 10, fontWeight: 700, flexShrink: 0,
+                        }}>
+                          {iku.urutan}
+                        </span>
+                        <input
+                          style={{
+                            flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600,
+                            background: "transparent", border: "1.5px solid transparent",
+                            borderRadius: 5, padding: "3px 6px",
+                            color: "var(--ink)", fontFamily: "var(--sans)", outline: "none",
+                          }}
+                          value={iku.nama_iku}
+                          onChange={(e) => updateIKU(idx, "nama_iku", e.target.value)}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--line)")}
+                          onBlur={(e) => (e.currentTarget.style.borderColor = "transparent")}
+                          placeholder="Nama IKU..."
+                        />
+                      </div>
+                      <button
+                        onClick={() => deleteIKU(idx)}
+                        title="Hapus IKU ini"
+                        style={{
+                          background: "var(--red-bg)", color: "var(--red)",
+                          border: "1px solid var(--red)33", borderRadius: 6,
+                          padding: "3px 10px", fontSize: 11, fontWeight: 600,
+                          cursor: "pointer", display: "flex", alignItems: "center", gap: 4,
+                          flexShrink: 0, marginLeft: 8,
+                        }}>
+                        <i className="fa-solid fa-trash" style={{ fontSize: 9 }}></i> Hapus IKU
+                      </button>
+                    </div>
+
+                    {/* fields */}
+                    <div style={{ padding: "14px" }}>
+                      <div style={{ marginBottom: 12 }}>
+                        <label style={fl}>Satuan Keluaran</label>
+                        <input
+                          style={fi}
+                          value={iku.satuan}
+                          onChange={(e) => updateIKU(idx, "satuan", e.target.value)}
+                          placeholder="Dokumen, Paket, Unit, Laporan, Orang, ..."
+                        />
+                      </div>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 10 }}>
+                        <div>
+                          <label style={fl}>Pagu <span style={{ fontWeight: 400, textTransform: "none" }}>(Rp)</span></label>
+                          <input style={fiMono} type="number" min="0"
+                            value={iku.pagu || ""}
+                            onChange={(e) => updateIKU(idx, "pagu", parseFloat(e.target.value) || 0)}
+                            placeholder="0" />
+                        </div>
+                        <div>
+                          <label style={fl}>Target 2026</label>
+                          <input style={fiMono} type="number" min="0"
+                            value={iku.target_2026 || ""}
+                            onChange={(e) => updateIKU(idx, "target_2026", parseFloat(e.target.value) || 0)}
+                            placeholder="0" />
+                        </div>
+                        <div>
+                          <label style={fl}>Target TW Ini</label>
+                          <input style={fiMono} type="number" min="0"
+                            value={iku.target_tw || ""}
+                            onChange={(e) => updateIKU(idx, "target_tw", parseFloat(e.target.value) || 0)}
+                            placeholder="0" />
+                        </div>
+                      </div>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 12 }}>
+                        <div>
+                          <label style={fl}>Realisasi Output</label>
+                          <input style={fiMono} type="number" min="0"
+                            value={iku.realisasi_output || ""}
+                            onChange={(e) => updateIKU(idx, "realisasi_output", parseFloat(e.target.value) || 0)}
+                            placeholder="0" />
+                        </div>
+                        <div>
+                          <label style={fl}>Realisasi Keuangan <span style={{ fontWeight: 400, textTransform: "none" }}>(Rp)</span></label>
+                          <input style={fiMono} type="number" min="0"
+                            value={iku.realisasi_keuangan || ""}
+                            onChange={(e) => updateIKU(idx, "realisasi_keuangan", parseFloat(e.target.value) || 0)}
+                            placeholder="0" />
+                        </div>
+                        <div>
+                          <label style={fl}>% Capaian Output</label>
+                          <input style={{ ...fiMono, background: "var(--line2)", color: "var(--ink3)" }}
+                            value={iku.pct_capaian} readOnly />
+                        </div>
+                      </div>
+                      <div style={{ display: "grid", gap: 10 }}>
+                        <div>
+                          <label style={fl}>Keterangan Kegiatan</label>
+                          <textarea style={{ ...fta, minHeight: 60 }}
+                            value={iku.keterangan}
+                            onChange={(e) => updateIKU(idx, "keterangan", e.target.value)}
+                            placeholder="Uraikan kegiatan yang telah dilaksanakan..." />
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                          <div>
+                            <label style={fl}>Permasalahan</label>
+                            <textarea style={{ ...fta, minHeight: 56 }}
+                              value={iku.permasalahan}
+                              onChange={(e) => updateIKU(idx, "permasalahan", e.target.value)}
+                              placeholder="Hambatan atau kendala..." />
+                          </div>
+                          <div>
+                            <label style={fl}>Tindak Lanjut</label>
+                            <textarea style={{ ...fta, minHeight: 56 }}
+                              value={iku.tindak_lanjut}
+                              onChange={(e) => updateIKU(idx, "tindak_lanjut", e.target.value)}
+                              placeholder="Rencana tindak lanjut..." />
+                          </div>
+                        </div>
+                        <div>
+                          <label style={fl}>Faktor Keberhasilan</label>
+                          <textarea style={{ ...fta, minHeight: 56 }}
+                            value={iku.faktor_keberhasilan}
+                            onChange={(e) => updateIKU(idx, "faktor_keberhasilan", e.target.value)}
+                            placeholder="Faktor pendukung keberhasilan..." />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })()}
+            </div>
+          )}
         </div>
 
         {/* ── FILES CARD ── */}
