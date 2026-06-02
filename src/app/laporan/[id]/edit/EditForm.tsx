@@ -429,7 +429,7 @@ export function EditForm({ initialData }: { initialData: InitialData }) {
                   padding: "8px 14px", background: "var(--line2)",
                   borderBottom: "1px solid var(--line)",
                 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }}>
                     <span style={{
                       width: 22, height: 22, background: uc.color, color: "white",
                       borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center",
@@ -437,7 +437,19 @@ export function EditForm({ initialData }: { initialData: InitialData }) {
                     }}>
                       {iku.urutan}
                     </span>
-                    <span style={{ fontSize: 13, fontWeight: 600 }}>{iku.nama_iku}</span>
+                    <input
+                      style={{
+                        flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600,
+                        background: "transparent", border: "1.5px solid transparent",
+                        borderRadius: 5, padding: "3px 6px",
+                        color: "var(--ink)", fontFamily: "var(--sans)", outline: "none",
+                      }}
+                      value={iku.nama_iku}
+                      onChange={(e) => updateIKU(idx, "nama_iku", e.target.value)}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = "var(--line)")}
+                      onBlur={(e) => (e.currentTarget.style.borderColor = "transparent")}
+                      placeholder="Nama IKU..."
+                    />
                   </div>
                   <button
                     onClick={() => deleteIKU(idx)}
