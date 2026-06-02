@@ -404,6 +404,25 @@ label.fl .opt {
 }
 .iku-title-input:focus { border-color: var(--line); background: var(--white); }
 .iku-title-input::placeholder { color: var(--ink3); font-weight: 400; }
+.iku-selector-bar {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+.iku-selector-bar select {
+  flex: 1; min-width: 0; padding: 8px 10px; font-size: 13px;
+  border: 1px solid var(--line); border-radius: 7px;
+  font-family: var(--sans); background: var(--white);
+  color: var(--ink); outline: none; cursor: pointer;
+}
+.iku-nav-btn {
+  width: 32px; height: 32px; border-radius: 7px;
+  border: 1px solid var(--line); background: var(--white);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.15s;
+}
+.iku-nav-btn:hover:not(:disabled) { background: var(--line2); }
+.iku-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.iku-counter { font-family: var(--mono); font-size: 11px; color: var(--ink3); white-space: nowrap; }
 
 /* ── SATKER CHIPS ── */
 .satker-grid {
@@ -1159,6 +1178,7 @@ let state = {
   satker: null,
   unitKerja: null,
   ikuNames: [],        // mutable copy of unitKerja.iku + any custom additions
+  selectedIkuIdx: 0,   // which IKU is currently visible in the selector
   currentStep: 1,
   uploadedFiles: [],   // File objects (untuk preview)
   filesMeta: [],       // { fileId, name, sizeBytes } setelah upload ke server
@@ -1208,12 +1228,13 @@ function selectUK(kode) {
 }
 
 // ── RENDER IKU FORM ──────────────────────────────
-function ikuBlockHTML(i, nama, isNew) {
+function ikuBlockHTML(i, nama, isNew, visible) {
   const uk = state.unitKerja;
+  const show = visible === undefined ? true : visible;
   const nameField = isNew
     ? `<input class="iku-title-input" id="namaiku_${i}" value="${nama}"
          placeholder="Nama indikator kinerja baru..."
-         oninput="state.ikuNames[${i}]=this.value">`
+         oninput="state.ikuNames[${i}]=this.value; updateIKUOptionLabel(${i},this.value)">`
     : `<div class="iku-title">${nama}</div>`;
   const bodyNameField = isNew ? "" : `
         <div class="fg">
@@ -1221,7 +1242,7 @@ function ikuBlockHTML(i, nama, isNew) {
           <input class="fi muted" value="${nama}" readonly>
         </div>`;
   return `
-    <div class="iku-block" id="iku_block_${i}" style="animation-delay:${Math.min(i,5)*0.04}s">
+    <div class="iku-block" id="iku_block_${i}" style="display:${show ? 'block' : 'none'}">
       <div class="iku-head">
         <div class="iku-num" style="background:${uk.warna}">${i+1}</div>
         ${nameField}
@@ -1274,23 +1295,73 @@ function renderIKUForm() {
   const uk = state.unitKerja;
   const names = state.ikuNames;
   const presetCount = uk.iku.length;
+  state.selectedIkuIdx = 0;
   document.getElementById("ukLabel2").textContent = uk.nama + " · " + names.length + " indikator";
-  const container = document.getElementById("ikuContainer");
-  container.innerHTML = names.map((nama, i) => ikuBlockHTML(i, nama, i >= presetCount)).join("") + `
-    <div id="addIkuRow" style="padding:6px 0 0">
-      <button type="button" class="btn-add-iku" onclick="addIKU()">
+
+  const options = names.map((n, i) =>
+    `<option value="${i}">${i+1}. ${n || "(IKU Baru " + (i+1) + ")"}</option>`
+  ).join("");
+  const blocks = names.map((nama, i) =>
+    ikuBlockHTML(i, nama, i >= presetCount, i === 0)
+  ).join("");
+
+  document.getElementById("ikuContainer").innerHTML = `
+    <div class="iku-selector-bar">
+      <button type="button" class="iku-nav-btn" id="ikuPrevBtn" onclick="prevIKU()" ${names.length <= 1 ? "disabled" : ""}>
+        <i class="fa-solid fa-chevron-left" style="font-size:11px"></i>
+      </button>
+      <select id="ikuDropdown" onchange="switchIKU(parseInt(this.value))">${options}</select>
+      <button type="button" class="iku-nav-btn" id="ikuNextBtn" onclick="nextIKU()" ${names.length <= 1 ? "disabled" : ""}>
+        <i class="fa-solid fa-chevron-right" style="font-size:11px"></i>
+      </button>
+      <span class="iku-counter" id="ikuCounter">IKU 1 dari ${names.length}</span>
+      <button type="button" class="btn-add-iku" onclick="addIKU()" style="margin-top:0">
         <i class="fa-solid fa-plus"></i> Tambah IKU
       </button>
-    </div>`;
+    </div>
+    <div id="ikuBlocksWrapper">${blocks}</div>`;
+}
+
+function switchIKU(idx) {
+  const cur = document.getElementById("iku_block_" + state.selectedIkuIdx);
+  if (cur) cur.style.display = "none";
+  const nxt = document.getElementById("iku_block_" + idx);
+  if (nxt) nxt.style.display = "block";
+  state.selectedIkuIdx = idx;
+  const sel = document.getElementById("ikuDropdown");
+  if (sel) sel.value = idx;
+  const ctr = document.getElementById("ikuCounter");
+  if (ctr) ctr.textContent = "IKU " + (idx + 1) + " dari " + state.ikuNames.length;
+  const prev = document.getElementById("ikuPrevBtn");
+  const next = document.getElementById("ikuNextBtn");
+  if (prev) prev.disabled = idx === 0;
+  if (next) next.disabled = idx === state.ikuNames.length - 1;
+}
+
+function prevIKU() { if (state.selectedIkuIdx > 0) switchIKU(state.selectedIkuIdx - 1); }
+function nextIKU() { if (state.selectedIkuIdx < state.ikuNames.length - 1) switchIKU(state.selectedIkuIdx + 1); }
+
+function updateIKUOptionLabel(i, value) {
+  const opt = document.querySelector('#ikuDropdown option[value="' + i + '"]');
+  if (opt) opt.textContent = (i + 1) + ". " + (value.trim() || "(IKU Baru " + (i + 1) + ")");
 }
 
 function addIKU() {
   const i = state.ikuNames.length;
   state.ikuNames.push("");
-  document.getElementById("addIkuRow").insertAdjacentHTML("beforebegin", ikuBlockHTML(i, "", true));
+  const sel = document.getElementById("ikuDropdown");
+  if (sel) {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = (i + 1) + ". (IKU Baru " + (i + 1) + ")";
+    sel.appendChild(opt);
+  }
+  const wrapper = document.getElementById("ikuBlocksWrapper");
+  if (wrapper) wrapper.insertAdjacentHTML("beforeend", ikuBlockHTML(i, "", true, false));
   document.getElementById("ukLabel2").textContent = state.unitKerja.nama + " · " + state.ikuNames.length + " indikator";
+  switchIKU(i);
   const inp = document.getElementById("namaiku_" + i);
-  if (inp) { inp.scrollIntoView({ behavior: "smooth", block: "center" }); inp.focus(); }
+  if (inp) inp.focus();
 }
 
 function calcCapaian(i) {
